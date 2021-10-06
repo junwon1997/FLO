@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/buttonshape1.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/select_box.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/select_change_box.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/song_player_seek_background.xml" value="0.13425925925925927" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/title_box.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/toggle_box.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/activity_song.xml" value="0.125" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_album.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_home.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_locker.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_look.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_search.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_song.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>
