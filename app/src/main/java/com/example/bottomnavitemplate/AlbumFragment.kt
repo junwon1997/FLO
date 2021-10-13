@@ -7,11 +7,14 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.bottomnavitemplate.databinding.FragmentAlbumBinding
+import com.google.android.material.tabs.TabLayoutMediator
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 
 class AlbumFragment : Fragment () {
 
     lateinit var binding: FragmentAlbumBinding
+
+    private val information = arrayListOf("수록곡","상세정보","영상")
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -34,19 +37,16 @@ class AlbumFragment : Fragment () {
            setLikeStatus(false)
         }
 
-        binding.albumToggleBoxIv.setOnClickListener {
-            setToggleStatus(true)
-        }
-        binding.albumToggleChangeBoxIv.setOnClickListener {
-           setToggleStatus(false)
-        }
-
-        binding.albumNumber1Cl.setOnClickListener {
-            Toast.makeText(activity,"라일락을 재생합니다",Toast.LENGTH_SHORT).show()
-        }
 
         val slidePanel = binding.mainFrame
         slidePanel.anchorPoint = 0.8f
+
+        val albumAdapter = AlbumViewpagerAdapter(this)
+        binding.albumContentVp.adapter = albumAdapter
+        TabLayoutMediator(binding.albumContentTb,binding.albumContentVp){
+            tab,position ->
+            tab.text = information[position]
+        }.attach()
 
 
         return binding.root
@@ -65,14 +65,5 @@ class AlbumFragment : Fragment () {
 
     }
 
-    private fun setToggleStatus(isToggle : Boolean){
-        if(isToggle){
-            binding.albumToggleChangeBoxIv.visibility = View.VISIBLE
-            binding.albumToggleBoxIv.visibility = View.GONE
-        }
-        else{
-            binding.albumToggleChangeBoxIv.visibility = View.GONE
-            binding.albumToggleBoxIv.visibility = View.VISIBLE
-        }
-    }
+
 }

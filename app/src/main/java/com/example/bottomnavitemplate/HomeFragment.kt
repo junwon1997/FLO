@@ -5,7 +5,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.viewpager2.widget.ViewPager2
 import com.example.bottomnavitemplate.databinding.FragmentHomeBinding
+import com.google.android.material.tabs.TabLayoutMediator
 
 
 class HomeFragment : Fragment() {
@@ -24,6 +26,19 @@ class HomeFragment : Fragment() {
                 .commitAllowingStateLoss()
         }
 
+        val bannerAdapter = BannerViewpagerAdapter(this)
+        bannerAdapter.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp))
+        bannerAdapter.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp2))
+
+
+        binding.homeBannerVp.adapter = bannerAdapter
+        binding.homeBannerVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+
+        val homebackgroundAdapter = HomeBackgroundAdapter(this)
+        binding.homeBackgroundVp.adapter = homebackgroundAdapter
+        binding.homeBackgroundVp.orientation = ViewPager2.ORIENTATION_HORIZONTAL
+        TabLayoutMediator(binding.homeBackgroundTb,binding.homeBackgroundVp)
+        { tab,position ->}.attach()
         return binding.root
     }
 

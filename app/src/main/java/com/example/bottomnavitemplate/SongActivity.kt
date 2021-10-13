@@ -1,7 +1,10 @@
 package com.example.bottomnavitemplate
 
+import android.content.Context
+import android.content.res.Resources
 import android.os.Bundle
 import android.os.strictmode.WebViewMethodCalledOnWrongThreadViolation
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.Toast
@@ -9,14 +12,16 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.bottomnavitemplate.databinding.ActivityMainBinding
 import com.example.bottomnavitemplate.databinding.ActivitySongBinding
 
+
 class SongActivity : AppCompatActivity(){
 
-    lateinit var binding: ActivitySongBinding
+    private lateinit var binding: ActivitySongBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
 
         if(intent.hasExtra("title") && intent.hasExtra("singer")){
             binding.songTitleTv.text = intent.getStringExtra("title")
@@ -131,3 +136,5 @@ class SongActivity : AppCompatActivity(){
 
 
 }
+
+

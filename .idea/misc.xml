@@ -4,19 +4,34 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/buttonshape1.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/custom_indicator.xml" value="0.13541666666666666" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/default_dot.xml" value="0.13541666666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/select_box.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/select_change_box.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/select_dot.xml" value="0.13541666666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/song_player_seek_background.xml" value="0.13425925925925927" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/tab_select.xml" value="0.13541666666666666" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/tablayout_text_size_1.xml" value="0.13541666666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/title_box.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/toggle_box.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/activity_main.xml" value="0.16666666666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/activity_song.xml" value="0.125" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/custom_indicator.xml" value="0.134375" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_album.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_background1.xml" value="0.134375" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_background2.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_background3.xml" value="0.134375" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_banner.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_detail.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_file.xml" value="0.134375" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_home.xml" value="0.1" />
-        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_locker.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_locker.xml" value="0.14666666666666667" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_look.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_music.xml" value="0.134375" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_search.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_song.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_video.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/toast_box.xml" value="0.16666666666666666" />
       </map>
     </option>
   </component>
