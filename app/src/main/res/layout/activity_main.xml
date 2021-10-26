@@ -14,6 +14,23 @@
         app:layout_constraintTop_toTopOf="parent" />
 
 
+    <SeekBar
+        android:id="@+id/main_playerseekbar_sb"
+        android:layout_width= "0dp"
+        android:layout_height="3dp"
+        android:layout_marginTop="5dp"
+        android:background="@null"
+        android:paddingStart="0dp"
+        android:paddingEnd="0dp"
+        android:max="1000"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/main_player_layout"
+        android:thumb="@color/transparent"
+        android:progressDrawable="@drawable/song_player_seek_background"
+        />
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_player_layout"
         android:layout_width="match_parent"
@@ -22,8 +39,10 @@
         android:paddingVertical="5dp"
         android:background="#F9F9F9"
         >
-        <LinearLayout
 
+
+
+        <LinearLayout
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:orientation="vertical"

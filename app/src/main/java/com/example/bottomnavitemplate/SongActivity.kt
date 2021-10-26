@@ -3,7 +3,10 @@ package com.example.bottomnavitemplate
 import android.content.Context
 import android.content.res.Resources
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.os.strictmode.WebViewMethodCalledOnWrongThreadViolation
+import android.util.Log
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
@@ -17,29 +20,41 @@ class SongActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivitySongBinding
 
+    private val song: Song = Song()
+    private lateinit var  player:Player
+    private val handler = Handler(Looper.getMainLooper())
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivitySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
-        if(intent.hasExtra("title") && intent.hasExtra("singer")){
+        if(intent.hasExtra("title") && intent.hasExtra("singer") && intent.hasExtra("playTime") && intent.hasExtra("isPlaying")){
             binding.songTitleTv.text = intent.getStringExtra("title")
             binding.songSingerTv.text = intent.getStringExtra("singer")
+            song.playTime = intent.getIntExtra("playTime",0)
+            song.isPlaying = intent.getBooleanExtra("isPlaying",false)
+            binding.songTotaltimeTv.text = String.format("%02d:%02d", song.playTime / 60, song.playTime % 60)
+            setPlayerStatus(song.isPlaying)
         }
 
+        player = Player(song.playTime,song.isPlaying)
+        player.start()
 
 
         binding.songDownIb.setOnClickListener {
             finish()
         }
 
-        binding.songPlayIv.setOnClickListener {
-           setPlayerStatus(false)
+        binding.songPauseIv.setOnClickListener {
+            setPlayerStatus(false)
+            player.isPlaying = false
         }
 
-        binding.songPauseIv.setOnClickListener {
-           setPlayerStatus(true)
+        binding.songPlayIv.setOnClickListener {
+            setPlayerStatus(true)
+            player.isPlaying = true
         }
 
         binding.songRepeatIv.setOnClickListener {
@@ -92,11 +107,11 @@ class SongActivity : AppCompatActivity(){
 
     private fun setPlayerStatus(isPlaying : Boolean) {
         if (isPlaying) {
-            binding.songPlayIv.visibility = View.VISIBLE
-            binding.songPauseIv.visibility = View.GONE
-        } else{
             binding.songPlayIv.visibility = View.GONE
             binding.songPauseIv.visibility = View.VISIBLE
+        } else{
+            binding.songPlayIv.visibility = View.VISIBLE
+            binding.songPauseIv.visibility = View.GONE
         }
     }
 
@@ -134,6 +149,37 @@ class SongActivity : AppCompatActivity(){
         }
     }
 
+    inner class Player(private val playTime:Int,var isPlaying: Boolean) : Thread() {
+
+        private var second = 0
+
+        override fun run() {
+            try{
+                while (true) {
+                    if(second >= playTime){
+                        break
+                    }
+                    if(isPlaying){
+                        sleep(1000)
+                        second++
+
+                        handler.post {
+                            binding.songPlayerseekbarSb.progress = second * 1000 / playTime
+                            binding.songPlaytimeTv.text = String.format("%02d:%02d", second / 60, second % 60)
+                        }
+                    }
+                }
+            }catch (e : InterruptedException){
+                Log.d("interrupt","쓰레드가 종료되었습니다")
+            }
+
+        }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        player.interrupt()
+    }
 
 }
 
