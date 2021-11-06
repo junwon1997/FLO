@@ -6,6 +6,7 @@
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/buttonshape1.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/custom_indicator.xml" value="0.13541666666666666" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/default_dot.xml" value="0.13541666666666666" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/ic_Flo_icon_background.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/select_box.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/select_change_box.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/drawable/select_dot.xml" value="0.13541666666666666" />
@@ -33,6 +34,9 @@
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_song.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/fragment_video.xml" value="0.1" />
         <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/layout/toast_box.xml" value="0.16666666666666666" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/mipmap-anydpi-v26/ic_Flo_icon.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1" />
+        <entry key="..\:/Android/AndroidStudioProjects/BottomNaviTemplate/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml" value="0.1" />
       </map>
     </option>
   </component>
