@@ -130,6 +130,7 @@
 
                 >
                 <ImageView
+                    android:id="@+id/album_img_iv"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:src="@drawable/img_album_exp2"

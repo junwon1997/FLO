@@ -7,12 +7,14 @@ import android.os.Handler
 import android.os.Looper
 import android.util.Log
 import android.view.View
+import android.widget.SeekBar
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.bottomnavitemplate.databinding.ActivityMainBinding
 import com.google.gson.Gson
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(){
     lateinit var binding: ActivityMainBinding
 
     private var gson: Gson = Gson()
@@ -28,16 +30,37 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("main_onCreate", " hi")
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         initNavigation()
 
-        val song = Song("라일락","아이유",0,215,false,"music_loser")
+        val song = Song("Loser","빅뱅(BigBang)",0,226,false,"music_loser")
 
         setMiniplayer(song)
 
-        mainplayer = MainPlayer(song.playTime,song.isPlaying)
+        mainplayer = MainPlayer(song.playTime,song.isPlaying,song.second)
         mainplayer.start()
+
+//        binding.mainPlayerseekbarSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+//                    Log.d("ProgressChanged","hi")
+//                    song.second = (seekBar!!.progress * song.playTime) / 1000
+//
+//            }
+//            override fun onStartTrackingTouch(seekBar: SeekBar?){
+//                Log.d("StartTracking","hi")
+//                song.second = (seekBar!!.progress * song.playTime) / 1000
+//
+//            }
+//
+//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+//                  Log.d("StopTracking","hi")
+//                  song.second = (seekBar!!.progress * song.playTime) / 1000
+//                  mediaPlayer?.seekTo(song.second * 1000)
+//            }
+//
+//        })
 
         binding.mainPlayerLayout.setOnClickListener {
            // startActivity(Intent(this,SongActivity::class.java))
@@ -104,6 +127,8 @@ class MainActivity : AppCompatActivity() {
 
     }
 
+
+
     private fun initNavigation() {
         supportFragmentManager.beginTransaction().replace(R.id.main_frm, HomeFragment())
             .commitAllowingStateLoss()
@@ -126,13 +151,13 @@ class MainActivity : AppCompatActivity() {
          binding.mainMiniplayerSingerTv.text = song.singer
          setPlayerStatus(song.isPlaying)
          binding.mainPlayerseekbarSb.progress = (song.second*1000/song.playTime)
-         val music = resources.getIdentifier(song.music, "raw",this.packageName)
-         mediaPlayer = MediaPlayer.create(this,music)
+
+        val music = resources.getIdentifier(song.music, "raw",this.packageName)
+        mediaPlayer = MediaPlayer.create(this,music)
+        mediaPlayer?.seekTo(song.second * 1000)
     }
 
-    inner class MainPlayer(private val playTime:Int,var isPlaying: Boolean) : Thread() {
-
-        private var second = 0
+    inner class MainPlayer(private val playTime:Int,var isPlaying: Boolean,private var second : Int) : Thread() {
 
         override fun run() {
             try{
@@ -157,21 +182,61 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        mainplayer.interrupt()
-    }
+
 
     override fun onStart() {
         super.onStart()
+        Log.d("main_OnStart","hi")
+
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
         val jsonSong = sharedPreferences.getString("song",null)
         song = if(jsonSong == null){
-            Song("아이유","아이유",0,215,false,"music_loser")
+            Song("Loser","빅뱅(BigBang)",0,226,false,"music_loser")
         }else{
             gson.fromJson(jsonSong, Song::class.java)
         }
-       setMiniplayer(song)
+
+        setMiniplayer(song)
+
+        mainplayer = MainPlayer(song.playTime,song.isPlaying,song.second)
+        mainplayer.start()
+
+       if(song.isPlaying){
+           mediaPlayer?.start()
+       }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        Log.d("main_OnPause","hi")
+
+        if(binding.mainMiniplayerBtn.isVisible){
+            song.isPlaying = false
+            mediaPlayer?.pause()
+        }
+        else{
+            song.isPlaying = true
+            mediaPlayer?.pause()
+        }
+
+        mainplayer.isPlaying = false // 쓰레드 중지
+        song.second = (binding.mainPlayerseekbarSb.progress * song.playTime)/1000
+
+        //sharedPreferences
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val editor = sharedPreferences.edit() //sharedPreferences 조작할 때 사용을 한다
+        // Gson
+        val json = gson.toJson(song)
+        editor.putString("song",json)
+
+        editor.apply()
+
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        Log.d("main_destroy","hi")
+        mainplayer.interrupt()
     }
 
 }

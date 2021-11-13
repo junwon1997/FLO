@@ -8,11 +8,13 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.bottomnavitemplate.databinding.FragmentAlbumBinding
 import com.google.android.material.tabs.TabLayoutMediator
+import com.google.gson.Gson
 import com.sothree.slidinguppanel.SlidingUpPanelLayout
 
 class AlbumFragment : Fragment () {
 
     lateinit var binding: FragmentAlbumBinding
+    private var gson: Gson = Gson()
 
     private val information = arrayListOf("수록곡","상세정보","영상")
 
@@ -22,6 +24,14 @@ class AlbumFragment : Fragment () {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentAlbumBinding.inflate(inflater, container, false)
+
+        //Home 에서 넘어온 데이터 받아오기
+        val albumData = arguments?.getString("album")
+        val album = gson.fromJson(albumData,Album::class.java)
+
+        //Home 에서 넘어온 데이터 반영
+        setInit(album)
+
 
         binding.albumBackIb.setOnClickListener {
             (context as MainActivity).supportFragmentManager.beginTransaction()
@@ -51,6 +61,13 @@ class AlbumFragment : Fragment () {
 
         return binding.root
     }
+
+    private fun setInit(album: Album) {
+        binding.albumImgIv.setImageResource(album.coverImg!!)
+        binding.albumSingerTv.text = album.singer.toString()
+        binding.albumTitleTv.text = album.title.toString()
+    }
+
     private fun setLikeStatus(isLike : Boolean){
         if(isLike){
             binding.albumLikeIb.visibility = View.GONE

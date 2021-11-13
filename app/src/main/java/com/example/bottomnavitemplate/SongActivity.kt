@@ -1,7 +1,5 @@
 package com.example.bottomnavitemplate
 
-import android.content.Context
-import android.content.Intent
 import android.content.res.Resources
 import android.media.MediaPlayer
 import android.os.Bundle
@@ -15,6 +13,7 @@ import android.view.View
 import android.widget.SeekBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import com.example.bottomnavitemplate.databinding.ActivityMainBinding
 import com.example.bottomnavitemplate.databinding.ActivitySongBinding
 import com.google.gson.Gson
@@ -24,7 +23,7 @@ class SongActivity : AppCompatActivity(){
 
     private lateinit var binding: ActivitySongBinding
 
-    private val song: Song = Song()
+    private var song: Song = Song()
     private lateinit var  player:Player
     private val handler = Handler(Looper.getMainLooper())
 
@@ -34,28 +33,37 @@ class SongActivity : AppCompatActivity(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("song_onCreate", "hi")
         binding = ActivitySongBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
-        if(intent.hasExtra("title") && intent.hasExtra("singer") && intent.hasExtra("second") && intent.hasExtra("playTime") && intent.hasExtra("isPlaying") && intent.hasExtra("music")){
-            song.title = intent.getStringExtra("title")!!
-            song.singer = intent.getStringExtra("singer")!!
-            song.second = intent.getIntExtra("second",0 )
-            song.playTime = intent.getIntExtra("playTime",0)
-            song.isPlaying = intent.getBooleanExtra("isPlaying",false)
-            song.music = intent.getStringExtra("music")!!
-            val music = resources.getIdentifier(song.music, "raw",this.packageName)
+        initSong()
+//
+//        player = Player(song.playTime,song.isPlaying,song.second)
+//        player.start()
 
-            binding.songTitleTv.text = intent.getStringExtra("title")
-            binding.songSingerTv.text = intent.getStringExtra("singer")
-            binding.songTotaltimeTv.text = String.format("%02d:%02d", song.playTime / 60, song.playTime % 60)
-            setPlayerStatus(song.isPlaying)
-            mediaPlayer = MediaPlayer.create(this,music)
-        }
 
-        player = Player(song.playTime,song.isPlaying)
-        player.start()
+//        binding.songPlayerseekbarSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+//            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+//                    Log.d("ProgressChanged","hi")
+//                    song.second = (seekBar!!.progress * song.playTime) / 1000
+//                    binding.songPlaytimeTv.text = String.format("%02d:%02d", song.second / 60, song.second % 60)
+//            }
+//            override fun onStartTrackingTouch(seekBar: SeekBar?){
+//                Log.d("StartTracking","hi")
+//                song.second = (seekBar!!.progress * song.playTime) / 1000
+//
+//            }
+//
+//            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+//                  Log.d("StopTracking","hi")
+//                  song.second = (seekBar!!.progress * song.playTime) / 1000
+//                  mediaPlayer?.seekTo(song.second * 1000)
+//                  binding.songPlaytimeTv.text = String.format("%02d:%02d",song.second/60,song.second%60)
+//            }
+//
+//        })
 
 
         binding.songDownIb.setOnClickListener {
@@ -67,8 +75,6 @@ class SongActivity : AppCompatActivity(){
             player.isPlaying = false
             song.isPlaying = false
             mediaPlayer?.pause()
-
-
         }
 
         binding.songPlayIv.setOnClickListener {
@@ -76,8 +82,6 @@ class SongActivity : AppCompatActivity(){
             player.isPlaying = true
             song.isPlaying = true
             mediaPlayer?.start()
-
-
         }
 
         binding.songRepeatIv.setOnClickListener {
@@ -128,6 +132,27 @@ class SongActivity : AppCompatActivity(){
 
     }
 
+    private fun initSong() {
+        if (intent.hasExtra("title") && intent.hasExtra("singer") && intent.hasExtra("second") && intent.hasExtra(
+                "playTime"
+            ) && intent.hasExtra("isPlaying") && intent.hasExtra("music")
+        ) {
+            song.title = intent.getStringExtra("title")!!
+            song.singer = intent.getStringExtra("singer")!!
+            song.second = intent.getIntExtra("second", 0)
+            song.playTime = intent.getIntExtra("playTime", 0)
+            song.isPlaying = intent.getBooleanExtra("isPlaying", false)
+            song.music = intent.getStringExtra("music")!!
+            val music = resources.getIdentifier(song.music, "raw", this.packageName)
+
+            binding.songTitleTv.text = intent.getStringExtra("title")
+            binding.songSingerTv.text = intent.getStringExtra("singer")
+            binding.songTotaltimeTv.text = String.format("%02d:%02d", song.playTime / 60, song.playTime % 60)
+            setPlayerStatus(song.isPlaying)
+            mediaPlayer = MediaPlayer.create(this, music)
+        }
+    }
+
     private fun setPlayerStatus(isPlaying: Boolean) {
         if (isPlaying) {
             binding.songPlayIv.visibility = View.GONE
@@ -172,14 +197,13 @@ class SongActivity : AppCompatActivity(){
         }
     }
 
-    inner class Player(private val playTime:Int,var isPlaying: Boolean) : Thread() {
+    inner class Player(private val playTime:Int,var isPlaying: Boolean,private var second : Int) : Thread() {
 
-        private var second = 0
+
 
         override fun run() {
             try{
                 while (true) {
-
 
                     if(second >= playTime){
                         break
@@ -189,26 +213,8 @@ class SongActivity : AppCompatActivity(){
                         second++
 
                         handler.post {
-
                             binding.songPlayerseekbarSb.progress = second * 1000 / playTime
                             binding.songPlaytimeTv.text = String.format("%02d:%02d", second / 60, second % 60)
-//                            binding.songPlayerseekbarSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
-//                                override fun onProgressChanged(
-//                                    seekBar: SeekBar?,
-//                                    progress: Int,
-//                                    fromUser: Boolean
-//                                ) {}
-//
-//                                override fun onStartTrackingTouch(seekBar: SeekBar?) {
-//
-//                                }
-//
-//                                override fun onStopTrackingTouch(seekBar: SeekBar?) {
-//
-//                                }
-//
-//                            })
-
                         }
                     }
                 }
@@ -219,13 +225,23 @@ class SongActivity : AppCompatActivity(){
         }
     }
 
+
+
     override fun onPause() {
         super.onPause()
-        mediaPlayer?.pause() //미디어 플레이어 정지
+        Log.d("song_OnPause","hi")
+
+       if(binding.songPlayIv.isVisible){
+           song.isPlaying = false
+           mediaPlayer?.pause()
+       }
+       else{
+           song.isPlaying = true
+           mediaPlayer?.pause()
+       }
+
         player.isPlaying = false // 스레드 정지
-        song.isPlaying = false
         song.second = (binding.songPlayerseekbarSb.progress * song.playTime)/1000
-        setPlayerStatus(false) //정지 상태 일 때의 이미지로 전환
 
         //sharedPreferences
         val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
@@ -237,8 +253,38 @@ class SongActivity : AppCompatActivity(){
         editor.apply()
     }
 
+    override fun onStart() {
+        super.onStart()
+        Log.d("song_start","hi")
+        val sharedPreferences = getSharedPreferences("song", MODE_PRIVATE)
+        val jsonSong = sharedPreferences.getString("song",null)
+        song = if(jsonSong == null){
+            Song("Loser","빅뱅(BigBang)",0,226,false,"music_loser")
+        }else{
+            gson.fromJson(jsonSong, Song::class.java)
+        }
+
+        binding.songTitleTv.text = song.title
+        binding.songSingerTv.text = song.singer
+        setPlayerStatus(song.isPlaying)
+        binding.songPlayerseekbarSb.progress = (song.second*1000/song.playTime)
+        binding.songPlaytimeTv.text = String.format("%02d:%02d", song.second / 60 , song.second % 60)
+
+        mediaPlayer?.seekTo(song.second * 1000)
+
+        player = Player(song.playTime,song.isPlaying,song.second)
+        player.start()
+
+        if(song.isPlaying){
+            mediaPlayer?.start()
+        }
+
+    }
+
+
     override fun onDestroy() {
         super.onDestroy()
+        Log.d("song_OnDestroy","hi")
         player.interrupt() // 스레드 해제
         mediaPlayer?.release() // 미디어 플레이어가 갖고 있던 리소스 해제
         mediaPlayer = null // 미디어 플레이어 해지
