@@ -118,6 +118,38 @@ class MainActivity : AppCompatActivity(){
 
         }
 
+        binding.mainPlayerseekbarSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                songs[nowPos].second = seekBar!!.progress * songs[nowPos].playTime / 1000
+            }
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                songs[nowPos].second = seekBar!!.progress * songs[nowPos].playTime / 1000
+                if(songs[nowPos].isPlaying) {
+                    mainplayer.interrupt()
+                    mainplayer = MainPlayer(
+                        songs[nowPos].playTime,
+                        songs[nowPos].isPlaying,
+                        songs[nowPos].second
+                    )
+                    mainplayer.start()
+                }
+                else{
+                    mainplayer = MainPlayer(
+                        songs[nowPos].playTime,
+                        songs[nowPos].isPlaying,
+                        songs[nowPos].second
+                    )
+                    mainplayer.start()
+                }
+
+                mediaPlayer?.seekTo(songs[nowPos].second * 1000)
+            }
+        })
+
         binding.mainMiniplayerNextIv.setOnClickListener {
             moveSong(+1)
         }

@@ -49,8 +49,8 @@ class SongActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         initPlayList()
-        initSong()
         initClickListener()
+        initSong()
 
     }
 
@@ -164,6 +164,8 @@ class SongActivity : AppCompatActivity(){
         if(songs[nowPos].isPlaying){
             mediaPlayer?.start()
         }
+
+
     }
 
     private fun getPlayingSongPosition(songId: Int): Int{
@@ -235,7 +237,41 @@ class SongActivity : AppCompatActivity(){
     }
 
 
-    private fun initClickListener() {
+     private fun initClickListener() {
+
+         binding.songPlayerseekbarSb.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener{
+             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                 songs[nowPos].second = seekBar!!.progress * songs[nowPos].playTime / 1000
+                 binding.songPlaytimeTv.text = String.format("%02d:%02d",songs[nowPos].second / 60, songs[nowPos].second % 60)
+             }
+
+             override fun onStartTrackingTouch(seekBar: SeekBar?) {
+                 songs[nowPos].second = seekBar!!.progress * songs[nowPos].playTime / 1000
+             }
+
+             override fun onStopTrackingTouch(seekBar: SeekBar?) {
+                 songs[nowPos].second = seekBar!!.progress * songs[nowPos].playTime / 1000
+                 if(songs[nowPos].isPlaying){
+                     player.interrupt()
+                     player = Player(songs[nowPos].playTime,songs[nowPos].isPlaying,
+                         songs[nowPos].second.toLong()
+                     )
+                     player.start()
+                 }
+                 else {
+                     player = Player(
+                         songs[nowPos].playTime, songs[nowPos].isPlaying,
+                         songs[nowPos].second.toLong()
+                     )
+                     player.start()
+                 }
+                 mediaPlayer?.seekTo(songs[nowPos].second * 1000)
+                 binding.songPlaytimeTv.text = String.format("%02d:%02d",songs[nowPos].second / 60, songs[nowPos].second % 60)
+             }
+
+         })
+
+
         binding.songSkip2Iv.setOnClickListener {
                moveSong(+1)
         }
