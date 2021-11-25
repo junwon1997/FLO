@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity(){
 
         initNavigation()
         inputDummySongs()
+        inputDummyAlbums()
 
        // val song = Song("Loser","빅뱅(BigBang)",0,226,false,"music_loser")
 
@@ -287,6 +288,58 @@ class MainActivity : AppCompatActivity(){
 
         setPlayerStatus(song.isPlaying)
     }
+
+    //ROOM_DB
+    private fun inputDummyAlbums() {
+        val songDB = SongDatabase.getInstance(this)!!
+        val albums = songDB.AlbumDao().getAlbums()
+
+        if (albums.isNotEmpty()) return
+
+        songDB.AlbumDao().insert(
+            Album(
+                1,
+                "Loser", "빅뱅 (Loser)", R.drawable.img_album_exp3
+            )
+        )
+
+        songDB.AlbumDao().insert(
+            Album(2,
+                "LILAC", "아이유 (IU)", R.drawable.img_album_exp2
+            )
+        )
+
+        songDB.AlbumDao().insert(
+            Album(
+                    3,
+                "Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp
+            )
+        )
+
+        songDB.AlbumDao().insert(
+            Album(
+                4,
+                "LILAC", "아이유 (IU)", R.drawable.img_album_exp2
+            )
+        )
+
+        songDB.AlbumDao().insert(
+            Album(
+                5,
+                "Butter", "방탄소년단 (BTS)", R.drawable.img_album_exp
+            )
+        )
+
+        songDB.AlbumDao().insert(
+            Album(
+                   6,
+                "Loser", "빅뱅 (Loser)", R.drawable.img_album_exp3
+            )
+        )
+
+
+    }
+
 
     private fun inputDummySongs(){
         songDB = SongDatabase.getInstance(this)!!

@@ -14,7 +14,9 @@ import com.google.gson.Gson
 
 class HomeFragment() : Fragment() {
     lateinit var binding: FragmentHomeBinding
-    private var albumDatas = ArrayList<Album>()
+    private var albums = ArrayList<Album>()
+
+    private lateinit var songDB: SongDatabase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,42 +33,28 @@ class HomeFragment() : Fragment() {
 //                .commitAllowingStateLoss()
 //        }
 
-        // 데이터 리스트 생성 ( 더미데이터 )
-        albumDatas.apply {
-            add(Album("LILAC","아이유(IU)", R.drawable.img_album_exp2))
-            add(Album("Butter","방탄소년단(BTS)", R.drawable.img_album_exp))
-            add(Album("Loser","빅뱅(BigBang)", R.drawable.img_album_exp3))
-            add(Album("LILAC","아이유(IU)", R.drawable.img_album_exp2))
-            add(Album("Butter","방탄소년단(BTS)", R.drawable.img_album_exp))
-            add(Album("Loser","빅뱅(BigBang)", R.drawable.img_album_exp3))
-            add(Album("LILAC","아이유(IU)", R.drawable.img_album_exp2))
-            add(Album("Butter","방탄소년단(BTS)", R.drawable.img_album_exp))
-            add(Album("Loser","빅뱅(BigBang)", R.drawable.img_album_exp3))
-            add(Album("LILAC","아이유(IU)", R.drawable.img_album_exp2))
-            add(Album("Butter","방탄소년단(BTS)", R.drawable.img_album_exp))
-            add(Album("Loser","빅뱅(BigBang)", R.drawable.img_album_exp3))
-            add(Album("LILAC","아이유(IU)", R.drawable.img_album_exp2))
-            add(Album("Butter","방탄소년단(BTS)", R.drawable.img_album_exp))
-            add(Album("Loser","빅뱅(BigBang)", R.drawable.img_album_exp3))
-         }
+        //RoomDB
+        songDB = SongDatabase.getInstance(requireContext())!!
+        // songDB 에서 albumlist 가져옴
+        albums.addAll(songDB.AlbumDao().getAlbums())
 
+        // 레이아웃 매니저 설정
+        binding.homeTodayMusicAlbumRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
 
 
         // 어뎁터 설정(더미데이터와 어뎁터 연결)
-        val albumRVAdapter = AlbumRVAdapter(albumDatas)
+        val albumRVAdapter = AlbumRVAdapter(albums)
 
         // 리사이클러뷰에 어뎁터를 연결
         binding.homeTodayMusicAlbumRecyclerView.adapter = albumRVAdapter
 
         albumRVAdapter.setMyItemClickListener(object  : AlbumRVAdapter.MyItemClickListener{
-
             override fun onItemClick(album: Album) {
                 changeAlbumFragment(album)
             }
+
         })
 
-        // 레이아웃 매니저 설정
-        binding.homeTodayMusicAlbumRecyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL,false)
 
         val bannerAdapter = BannerViewpagerAdapter(this)
         bannerAdapter.addFragment(BannerFragment(R.drawable.img_home_viewpager_exp))

@@ -49,8 +49,9 @@ class SongActivity : AppCompatActivity(){
         setContentView(binding.root)
 
         initPlayList()
-        initClickListener()
         initSong()
+        initClickListener()
+
 
     }
 
@@ -118,6 +119,7 @@ class SongActivity : AppCompatActivity(){
     override fun onDestroy() {
         super.onDestroy()
         Log.d("song_OnDestroy","hi")
+
         player.interrupt() // 스레드 해제
         mediaPlayer?.release() // 미디어 플레이어가 갖고 있던 리소스 해제
         mediaPlayer = null // 미디어 플레이어 해지
@@ -154,10 +156,7 @@ class SongActivity : AppCompatActivity(){
 
         nowPos = getPlayingSongPosition(songId)
 
-        player = Player(songs[nowPos].playTime,songs[nowPos].isPlaying,
-            songs[nowPos].second.toLong()
-        )
-        player.start()
+        startPlayer()
 
         setPlayer(songs[nowPos])
 
@@ -226,10 +225,7 @@ class SongActivity : AppCompatActivity(){
         nowPos += direct
 
         player.interrupt()
-        player = Player(songs[nowPos].playTime,songs[nowPos].isPlaying,
-            songs[nowPos].second.toLong()
-        )
-        player.start()
+        startPlayer()
         mediaPlayer?.release()
         mediaPlayer = null
         setPlayer(songs[nowPos])
@@ -253,22 +249,14 @@ class SongActivity : AppCompatActivity(){
                  songs[nowPos].second = seekBar!!.progress * songs[nowPos].playTime / 1000
                  if(songs[nowPos].isPlaying){
                      player.interrupt()
-                     player = Player(songs[nowPos].playTime,songs[nowPos].isPlaying,
-                         songs[nowPos].second.toLong()
-                     )
-                     player.start()
+                     startPlayer()
                  }
                  else {
-                     player = Player(
-                         songs[nowPos].playTime, songs[nowPos].isPlaying,
-                         songs[nowPos].second.toLong()
-                     )
-                     player.start()
-                 }
+                     startPlayer()
+                }
                  mediaPlayer?.seekTo(songs[nowPos].second * 1000)
                  binding.songPlaytimeTv.text = String.format("%02d:%02d",songs[nowPos].second / 60, songs[nowPos].second % 60)
              }
-
          })
 
 
@@ -344,6 +332,14 @@ class SongActivity : AppCompatActivity(){
             setUnlikeStatus(false)
         }
 
+    }
+
+    private fun startPlayer() {
+        player = Player(
+            songs[nowPos].playTime, songs[nowPos].isPlaying,
+            songs[nowPos].second.toLong()
+        )
+        player.start()
     }
 
     private fun setPlayerStatus(isPlaying: Boolean) {

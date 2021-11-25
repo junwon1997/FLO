@@ -18,5 +18,7 @@
         </activity>
         <activity android:name="com.example.bottomnavitemplate.MainActivity"/>
         <activity android:name="com.example.bottomnavitemplate.SongActivity"/>
+        <activity android:name="com.example.bottomnavitemplate.LoginActivity"/>
+        <activity android:name="com.example.bottomnavitemplate.SignUpActivity"/>
     </application>
 </manifest>

@@ -19,7 +19,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/locker_login"
+        android:id="@+id/locker_login_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="로그인"
@@ -30,10 +30,21 @@
         app:layout_constraintTop_toTopOf="@id/locker_title"
         app:layout_constraintBottom_toBottomOf="@id/locker_title"/>
 
+    <TextView
+        android:id="@+id/locker_user_name_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="15sp"
+        android:text=" "
+        android:textColor="@color/black"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toStartOf="@id/locker_login_tv"
+        app:layout_constraintTop_toTopOf="@id/locker_title"
+        app:layout_constraintBottom_toBottomOf="@id/locker_title"/>
 
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/locker_content_tb"
-        android:layout_width="200dp"
+        android:layout_width="300dp"
         android:layout_height="wrap_content"
         app:tabIndicatorFullWidth="false"
         app:tabIndicatorColor="#3f3fff"

@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.bottomnavitemplate.databinding.FragmentAlbumBinding
 import com.google.android.material.tabs.TabLayoutMediator
@@ -18,6 +19,8 @@ class AlbumFragment : Fragment () {
 
     private val information = arrayListOf("수록곡","상세정보","영상")
 
+    private var isLiked: Boolean = false
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -28,9 +31,11 @@ class AlbumFragment : Fragment () {
         //Home 에서 넘어온 데이터 받아오기
         val albumData = arguments?.getString("album")
         val album = gson.fromJson(albumData,Album::class.java)
+        isLiked = isLikedAlbum(album.id)
 
         //Home 에서 넘어온 데이터 반영
         setInit(album)
+        setClickListener(album)
 
 
         binding.albumBackIb.setOnClickListener {
@@ -39,13 +44,6 @@ class AlbumFragment : Fragment () {
                 .commitAllowingStateLoss()
         }
 
-        binding.albumLikeIb.setOnClickListener {
-            setLikeStatus(true)
-        }
-
-        binding.albumLikeOnIb.setOnClickListener {
-           setLikeStatus(false)
-        }
 
 
         val slidePanel = binding.mainFrame
@@ -66,21 +64,60 @@ class AlbumFragment : Fragment () {
         binding.albumImgIv.setImageResource(album.coverImg!!)
         binding.albumSingerTv.text = album.singer.toString()
         binding.albumTitleTv.text = album.title.toString()
+
+        if(isLiked){
+            binding.albumLikeIb.setImageResource(R.drawable.ic_my_like_on)
+        }else{
+            binding.albumLikeIb.setImageResource(R.drawable.ic_my_like_off)
+        }
     }
 
-    private fun setLikeStatus(isLike : Boolean){
-        if(isLike){
-            binding.albumLikeIb.visibility = View.GONE
-            binding.albumLikeOnIb.visibility = View.VISIBLE
+    private fun setClickListener(album: Album){
+        val userId: Int = getJwt()
+
+        binding.albumLikeIb.setOnClickListener {
+            if(isLiked){
+                binding.albumLikeIb.setImageResource(R.drawable.ic_my_like_off)
+                disLikedAlbum(userId,album.id)
+            }else{
+                binding.albumLikeIb.setImageResource(R.drawable.ic_my_like_on)
+                likeAlbum(userId,album.id)
+            }
         }
-        else{
-            binding.albumLikeIb.visibility = View.VISIBLE
-            binding.albumLikeOnIb.visibility = View.GONE
-        }
+    }
 
 
+    private fun likeAlbum(userId: Int, albumId: Int){
+        val songDB = SongDatabase.getInstance(requireContext())!!
+        val like = Like(userId,albumId)
+
+        songDB.AlbumDao().likeAlbum((like))
+    }
+
+    private fun isLikedAlbum(albumId: Int):Boolean{
+        val songDB = SongDatabase.getInstance(requireContext())!!
+        val userId = getJwt()
+
+        val likeId: Int? = songDB.AlbumDao().isLikeAlbum(userId,albumId)
+
+        //likeId != null
+        return likeId != null
+    }
+
+    private fun disLikedAlbum(userId: Int,albumId: Int){
+        val songDB = SongDatabase.getInstance(requireContext())!!
+        songDB.AlbumDao().isLikeAlbum(userId,albumId)
 
     }
+
+    // jwt를 가져오는 함수
+    private fun getJwt(): Int {
+        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
+
+        return spf!!.getInt("jwt",0)
+    }
+
+
 
 
 }

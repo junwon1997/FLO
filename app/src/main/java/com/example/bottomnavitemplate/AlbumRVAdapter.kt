@@ -5,7 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bottomnavitemplate.databinding.ItemAlbumBinding
 
-class AlbumRVAdapter(private var albumList: ArrayList<Album>) : RecyclerView.Adapter<AlbumRVAdapter.ViewHolder>() {
+class AlbumRVAdapter(private val albumList: ArrayList<Album>) : RecyclerView.Adapter<AlbumRVAdapter.ViewHolder>() {
 
     // 클릭 이벤트 인터페이스 정의
     interface MyItemClickListener{
@@ -36,6 +36,7 @@ class AlbumRVAdapter(private var albumList: ArrayList<Album>) : RecyclerView.Ada
         holder.itemView.setOnClickListener{ mItemClockListener.onItemClick(albumList[position])}
 
     }
+
 
     // 데이터 세트 크기를 알려주는 함수 -> 리사이클러뷰의 마지막이 언제인지를 알 수 있다.
     override fun getItemCount(): Int = albumList.size
