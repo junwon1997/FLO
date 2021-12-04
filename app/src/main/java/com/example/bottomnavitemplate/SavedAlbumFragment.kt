@@ -38,18 +38,14 @@ class SavedAlbumFragment : Fragment() {
 
         albumRVAdapter.setMyItemClickListener(object : AlbumLockerRVAdapter.MyItemClickListener{
             override fun onRemoveSong(songId: Int) {
-                albumDB.AlbumDao().disLikeAlbum(getJwt(),songId)
-                albumDB.AlbumDao().getLikeAlbums(getJwt())
+                albumDB.AlbumDao().disLikeAlbum(getUserIdx(requireContext()),songId)
+                albumDB.AlbumDao().getLikeAlbums(getUserIdx(requireContext()))
             }
         })
 
         binding.savedAlbumSavedRecyclerView.adapter = albumRVAdapter
-        albumRVAdapter.addAlbums(albumDB.AlbumDao().getLikeAlbums(getJwt()) as ArrayList)
+        albumRVAdapter.addAlbums(albumDB.AlbumDao().getLikeAlbums(getUserIdx(requireContext())) as ArrayList)
 
     }
 
-    private fun getJwt(): Int {
-        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-        return spf!!.getInt("jwt", 0)
-    }
 }

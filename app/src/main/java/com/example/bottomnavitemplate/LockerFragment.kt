@@ -1,7 +1,9 @@
 package com.example.bottomnavitemplate
 
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -48,11 +50,10 @@ class LockerFragment : Fragment() {
     }
 
     private fun initView() {
-        val jwt = getJwt()
-        val userDB = SongDatabase.getInstance(requireContext())!!
-        val userName = userDB.UserDao().getUsersName(jwt)
+        val userIdx = getUserIdx(requireContext())
+   //     val userName = getUserName(requireContext())
 
-        if(jwt == 0){
+        if(userIdx == 0){
             binding.lockerLoginTv.text = "로그인"
 
             binding.lockerLoginTv.setOnClickListener {
@@ -62,30 +63,28 @@ class LockerFragment : Fragment() {
         else {
 
             binding.lockerLoginTv.text = "로그아웃"
-            binding.lockerUserNameTv.text = userName?.name
+     //       binding.lockerUserNameTv.text = userName
 
             binding.lockerLoginTv.setOnClickListener {
                 logout()
                 Toast.makeText(requireContext(), "로그아웃 되었습니다.", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(activity,MainActivity::class.java))
+                Log.d("LOGOUT",userIdx.toString())
             }
         }
     }
 
-    // jwt를 가져오는 함수
-    private fun getJwt(): Int {
-        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-
-        return spf!!.getInt("jwt",0)
-    }
 
     // 로그아웃을 시켜주는 함수
     private fun logout(){
         val spf = activity?.getSharedPreferences("auth",AppCompatActivity.MODE_PRIVATE)
         val editor = spf!!.edit()
 
+        editor.remove("userIdx")
         editor.remove("jwt")
         editor.apply()
+
+
     }
 
 }

@@ -73,7 +73,7 @@ class AlbumFragment : Fragment () {
     }
 
     private fun setClickListener(album: Album){
-        val userId: Int = getJwt()
+        val userId: Int = getUserIdx(requireContext())
 
         binding.albumLikeIb.setOnClickListener {
             if(isLiked){
@@ -96,7 +96,7 @@ class AlbumFragment : Fragment () {
 
     private fun isLikedAlbum(albumId: Int):Boolean{
         val songDB = SongDatabase.getInstance(requireContext())!!
-        val userId = getJwt()
+        val userId = getUserIdx(requireContext())
 
         val likeId: Int? = songDB.AlbumDao().isLikeAlbum(userId,albumId)
 
@@ -109,15 +109,5 @@ class AlbumFragment : Fragment () {
         songDB.AlbumDao().isLikeAlbum(userId,albumId)
 
     }
-
-    // jwt를 가져오는 함수
-    private fun getJwt(): Int {
-        val spf = activity?.getSharedPreferences("auth", AppCompatActivity.MODE_PRIVATE)
-
-        return spf!!.getInt("jwt",0)
-    }
-
-
-
 
 }

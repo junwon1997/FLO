@@ -88,6 +88,19 @@
         app:layout_constraintEnd_toEndOf="@id/login_direct_input_et"
         app:layout_constraintTop_toTopOf="@id/login_direct_input_et"/>
 
+    <TextView
+        android:id="@+id/login_id_error_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_id_underscore_view"/>
+
     <EditText
         android:id="@+id/login_password_et"
         android:layout_width="0dp"
@@ -122,6 +135,19 @@
         app:layout_constraintBottom_toBottomOf="@id/login_password_et"
         app:layout_constraintEnd_toEndOf="@id/login_password_et"
         app:layout_constraintTop_toTopOf="@id/login_password_et"/>
+
+    <TextView
+        android:id="@+id/login_error_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="5dp"
+        android:textStyle="bold"
+        android:textColor="@color/red"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/login_password_underscore_view"/>
 
     <Button
         android:id="@+id/login_login_btn"
@@ -254,6 +280,18 @@
         app:layout_constraintStart_toEndOf="@id/login_kakao_iv"
         app:layout_constraintEnd_toEndOf="parent"
         />
+
+    <ProgressBar
+        android:id="@+id/login_loading_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:indeterminateTint="@color/purple_500"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:visibility="gone"/>
 
 
 
